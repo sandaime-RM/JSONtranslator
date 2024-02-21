@@ -3,6 +3,8 @@ import {spinner, getAllValuesWithPath} from "../base.js"
 const reader = new FileReader();
 let valuesWithPath = [[], []];
 
+const resultText = ["互いにデータの欠落はありません", "JSONファイル1に欠落があります", "JSONファイル2に欠落があります", "両方のファイルに互いに欠落があります"]
+
 //JSONを読み込み
 function loadJSON(id) {
     spinner(true);
@@ -79,7 +81,9 @@ function checkJSON() {
             document.getElementById("outputField").innerHTML += '<tr><td class="small">' + element2.path +'</td><td>' + checkResult +'</td><td><i class="bi bi-check-lg text-emerald-600 text-xl me-2"></i>' + element2.value + '</td></tr>'
 
         }
-    })
+    });
+
+    document.getElementById("resultField").textContent = resultText[result];
 }
 
 window.checkJSON = checkJSON;
