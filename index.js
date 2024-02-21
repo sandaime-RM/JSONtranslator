@@ -1,3 +1,5 @@
+import {setValuesByPaths, spinner, getAllValuesWithPath} from "./base.js"
+
 let newValuePath = [];
 const reader = new FileReader();
 let valuesWithPath = [];
@@ -49,7 +51,7 @@ async function translateAll(translation) {
         let element = valuesWithPath[i];
         let resultText
     
-        resultText = "----";
+        resultText = element.value; //とりあえず元のJSONのValueを出力値に設定
 
         //翻訳前後の言語をフォームから取得
         let lang_before = document.getElementById("lang_before").value;
@@ -85,17 +87,6 @@ function textChange(num) {
 window.textChange = textChange
 export{textChange}
 
-//スピナー表示
-function spinner(on) {
-    if(on) {
-        document.getElementById("spinner").style.display = "";
-    } else {
-        document.getElementById("spinner").style.display = "none";
-    }
-}
-window.spinner = spinner;
-export {spinner}
-
 //翻訳
 function translate(text, fromLang, toLang, apiKey) {
 
@@ -111,45 +102,6 @@ function translate(text, fromLang, toLang, apiKey) {
     }
 }
 
-//Object内の全てのValueとPathを取得
-function getAllValuesWithPath(obj, path = []) {
-    let result = [];
-  
-    for (const key in obj) {
-      const value = obj[key];
-      const currentPath = [...path, key];
-  
-      if (typeof value === 'object' && value !== null) {
-        result = result.concat(getAllValuesWithPath(value, currentPath));
-      } else {
-        result.push({ path: currentPath.join('/'), value });
-      }
-    }
-    
-    return result;
-}
-
-//ValueとパスからObjectを取得
-function setValueByPath(obj, path, value) {
-    const keys = path.split('/');
-    let currentObj = obj;
-  
-    for (let i = 0; i < keys.length - 1; i++) {
-      const key = keys[i];
-      if (!currentObj[key]) {
-        currentObj[key] = {};
-      }
-      currentObj = currentObj[key];
-    }
-  
-    currentObj[keys[keys.length - 1]] = value;
-  }
-  
-function setValuesByPaths(obj, values) {
-    values.forEach(({ path, value }) => {
-        setValueByPath(obj, path, value);
-    });
-}
 
 //JSON出力
 function exportJSON() {

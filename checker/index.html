@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Translator</title>
+    <title>JSON Translator | File Checker</title>
 
     <!--tailwind CSS-->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,35 +13,25 @@
 </head>
 <body class="p-4">
     <div class="border p-3 mb-3">
-        <h5 class="font-bold mb-3"><i class="bi bi-gear me-2"></i> 翻訳設定</h5>
+        <h5 class="font-bold mb-3"><i class="bi bi-gear me-2"></i> 検証設定</h5>
 
-        <div class="grid grid-cols-6 mb-3">
+        <div class="grid grid-cols-5 mb-3">
+
             <div class="col-span-2 px-2">
-                <label>Google Cloud APIキー</label><br>
-                <input class="p-2 rounded border w-full" type="text" id="apiKey">
+                <label>JSONファイル 1</label><br>
+                <input class="p-2 rounded border w-full" value="ja" type="file" id="file1" onchange="loadJSON(1)">
             </div>
 
             <div class="col-span-2 px-2">
-                <label>JSONファイル</label><br>
-                <input class="p-2 rounded border w-full" value="ja" type="file" id="file" onchange="loadJSON()">
+                <label>JSONファイル 2</label><br>
+                <input class="p-2 rounded border w-full" value="ja" type="file" id="file2" onchange="loadJSON(2)">
             </div>
             
             <div class="col-span-1 px-2">
-                <label>元の言語コード</label><br>
-                <input class="p-2 rounded border w-full" value="ja" type="text" id="lang_before">
+                <br>
+                <button class="bg-orange-300 p-2 rounded mx-2 my-1 hover:bg-orange-400 w-full" onclick="checkJSON()"><i class="bi bi-file-earmark-text"></i>ファイルを比較</button>
             </div>
             
-
-            <div class="col-span-1 px-2">
-                <label>翻訳後の言語コード</label><br>
-                <input class="p-2 rounded border w-full" value="zh-TW" id="lang_after">
-            </div>
-
-        </div>
-
-        <div class="text-end mb-3">
-            <button class="bg-sky-300 p-2 rounded mx-2 hover:bg-sky-400" onclick="translateAll(true)"><i class="bi bi-translate me-2"></i>自動翻訳</button>
-            <button class="bg-orange-300 p-2 rounded mx-2 hover:bg-orange-400" onclick="exportJSON()"><i class="bi bi-upload me-2"></i>JSONで出力</button>
         </div>
     </div>
 
@@ -50,8 +40,8 @@
             <thead>
                 <tr>
                     <th>パス</th>
-                    <th>元データ</th>
-                    <th>翻訳結果</th>
+                    <th>JSONファイル 1</th>
+                    <th>JSONファイル 2</th>
                 </tr>
             </thead>
 
@@ -71,7 +61,7 @@
     </div>
     
 
-    <script src="index.js" type="module"></script>
+    <script src="check.js" type="module"></script>
 
     <style>
         table {
