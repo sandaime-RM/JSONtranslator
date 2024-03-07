@@ -47,7 +47,9 @@ async function translateAll(translation) {
     //各行ごとに（翻訳して）表示 Object.keys(valuesWithPath).length
     document.getElementById("outputField").innerHTML = "";
 
-    for(var i = 0; i < Object.keys(valuesWithPath).length; i ++) {
+    let dataNum = Object.keys(valuesWithPath).length;
+
+    for(var i = 0; i < dataNum; i ++) {
         let element = valuesWithPath[i];
         let resultText
     
@@ -59,7 +61,7 @@ async function translateAll(translation) {
         let apiKey = document.getElementById("apiKey").value;
         
         if(translation) {
-            resultText = await translate(element.value, lang_before, lang_after, apiKey);
+            resultText = translate(element.value, lang_before, lang_after, apiKey);
         }
     
         //表として表示
@@ -70,6 +72,12 @@ async function translateAll(translation) {
             path : element.path,
             value : resultText
         }
+
+        // 進行状況をパーセンテージで表示
+        document.getElementById("progress1").textContent = Math.floor(i/dataNum*100) + "%";
+        document.getElementById("progress2").textContent = "(" + i + "/" + dataNum + ")";
+
+        await new Promise( res => setTimeout( res, 0 ) );
     }
 
     //スピナー非表示
