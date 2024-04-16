@@ -3,10 +3,16 @@ import {setValuesByPaths, spinner, getAllValuesWithPath} from "./base.js"
 let newValuePath = [];
 const reader = new FileReader();
 let valuesWithPath = [];
+let beforeText = [];
+const outputField = document.getElementById("outputField");
+let resultText;
+let element;
+const showResult = document.getElementById("showResult");
 
 //JSONを読み込み
 function loadJSON() {
     spinner(true);
+    document.getElementById("progress1").textContent ="準備中…";
 
     console.log(document.getElementById("file").files[0]);
     
@@ -19,7 +25,7 @@ function loadJSON() {
 
         valuesWithPath = getAllValuesWithPath(data);
         console.log(valuesWithPath);
-        setTimeout(translateAll, 50, false);
+        setTimeout(translateAll, 20, false);
     };
 
     reader.readAsText(file);
@@ -46,12 +52,12 @@ async function translateAll(translation) {
     
     //各行ごとに（翻訳して）表示 Object.keys(valuesWithPath).length
     document.getElementById("outputField").innerHTML = "";
+    document.getElementById("progress2").textContent = "";
 
     let dataNum = Object.keys(valuesWithPath).length;
 
     for(var i = 0; i < dataNum; i ++) {
-        let element = valuesWithPath[i];
-        let resultText
+        element = valuesWithPath[i];
     
         resultText = element.value; //とりあえず元のJSONのValueを出力値に設定
 
@@ -64,8 +70,7 @@ async function translateAll(translation) {
             resultText = translate(element.value, lang_before, lang_after, apiKey);
         }
     
-        //表として表示
-        document.getElementById("outputField").innerHTML += '<tr><td class="text-sm">' + element.path + '</td><td>' + element.value + '</td><td><input id="afterText_' + i + '" class="p-2 rounded border" value="' + resultText + '" onchange="textChange(' + i + ')"></td></tr>'
+        //outputField.innerHTML += '<tr><td class="text-sm">' + element.path + '</td><td>' + element.value + '</td><td><input id="afterText_' + i + '" class="p-2 rounded border" value="' + resultText + '" onchange="textChange(' + i + ')"></td></tr>'
         
         //出力用のオブジェクトの作成
         newValuePath[i] = {
@@ -73,12 +78,33 @@ async function translateAll(translation) {
             value : resultText
         }
 
-        // 進行状況をパーセンテージで表示
-        document.getElementById("progress1").textContent = Math.floor(i/dataNum*100) + "%";
-        document.getElementById("progress2").textContent = "(" + i + "/" + dataNum + ")";
+        beforeText[i] = element.value;
 
-        await new Promise( res => setTimeout( res, 0 ) );
+        // 進行状況をパーセンテージで表示
+        if(Math.floor(i/30) == i/30) {
+            document.getElementById("progress1").textContent = (Math.floor(i/dataNum*500)/10) + "%";
+            await new Promise( res => setTimeout( res, 0 ) );
+        }
     }
+
+    if(showResult.checked == true) {
+        //ここから表に描画
+        console.log("Making table...");
+
+        for(var i = 0; i < dataNum; i ++) {
+            //表として表示
+            outputField.innerHTML += await '<tr><td class="text-sm">' + newValuePath[i].path + '</td><td>' + beforeText[i] + '</td><td><input id="afterText_' + i + '" class="p-2 border" value="' + newValuePath[i].value + '" onchange="textChange(' + i + ')"></td></tr>'
+            
+            if(Math.floor(i/7) == i/7) {
+                document.getElementById("progress1").textContent = (Math.floor(i/dataNum*500)/10+50) + "%";
+                await new Promise( res => setTimeout( res, 0 ) );
+            }
+        }
+    } else {
+        //読み込み完了とだけ表示
+        document.getElementById("status").style.display = "";
+    }
+    
 
     //スピナー非表示
     spinner(false)
