@@ -14,14 +14,14 @@ function loadJSON() {
     spinner(true);
     document.getElementById("progress1").textContent ="準備中…";
 
-    console.log(document.getElementById("file").files[0]);
+    //console.log(document.getElementById("file").files[0]);
     
     const file = document.getElementById("file").files[0];
 
     reader.onload = function(event) {
         const json = event.target.result;
         const data = JSON.parse(json);
-        console.log(data); // オブジェクトを表示する例
+        //console.log(data); // オブジェクトを表示する例
 
         valuesWithPath = getAllValuesWithPath(data);
         console.log(valuesWithPath);
@@ -83,6 +83,7 @@ async function translateAll(translation) {
         // 進行状況をパーセンテージで表示
         if(Math.floor(i/30) == i/30) {
             document.getElementById("progress1").textContent = (Math.floor(i/dataNum*500)/10) + "%";
+            document.getElementById("progress2").textContent = "(" + i + "/" + dataNum + ")";
             await new Promise( res => setTimeout( res, 0 ) );
         }
     }
@@ -97,12 +98,16 @@ async function translateAll(translation) {
             
             if(Math.floor(i/7) == i/7) {
                 document.getElementById("progress1").textContent = (Math.floor(i/dataNum*500)/10+50) + "%";
+                document.getElementById("progress2").textContent = "(" + i + "/" + dataNum + ")";
                 await new Promise( res => setTimeout( res, 0 ) );
             }
         }
+
+        console.log(newValuePath);
     } else {
         //読み込み完了とだけ表示
         document.getElementById("status").style.display = "";
+        console.log(newValuePath);
     }
     
 
