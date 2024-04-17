@@ -25,7 +25,7 @@ function loadJSON() {
 
         valuesWithPath = getAllValuesWithPath(data);
         console.log(valuesWithPath);
-        setTimeout(translateAll, 20, false);
+        spinner(false);
     };
 
     reader.readAsText(file);
@@ -36,7 +36,7 @@ export {loadJSON}
 
 
 //翻訳し、結果を表にする
-//translate : T/F APIを用いて翻訳するかどうか
+//translate : T/F APIを用いて翻訳する or 表示のみ
 async function translateAll(translation) {
     spinner(true);
     console.log(translation);
