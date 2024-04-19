@@ -8,6 +8,16 @@ const outputField = document.getElementById("outputField");
 let resultText;
 let element;
 const showResult = document.getElementById("showResult");
+const saveKeyCheck = document.getElementById("saveKey");
+const apiKeyField = document.getElementById("apiKey");
+
+//Webページ読み込み時に、保存済みのAPIキーを照会して表示
+window.onload = function() {
+    if(localStorage.getItem("key")) {
+        apiKeyField.value = localStorage.getItem("key");
+        saveKeyCheck.checked = true;
+    }
+}
 
 //JSONを読み込み
 function loadJSON() {
@@ -33,6 +43,18 @@ function loadJSON() {
 
 window.loadJSON = loadJSON;
 export {loadJSON}
+
+//APIキーが変更されたら、最新状態をローカルに保存する / テキストボックスが空または保存のチェックなしの場合、キーを削除
+function saveKey() {
+    if(saveKeyCheck.checked && apiKeyField.value != "") {
+        localStorage.setItem("key", apiKeyField.value);
+    } else {
+        localStorage.removeItem("key");
+    }
+}
+
+window.saveKey = saveKey;
+export {saveKey}
 
 
 //翻訳し、結果を表にする
@@ -64,7 +86,7 @@ async function translateAll(translation) {
         //翻訳前後の言語をフォームから取得
         let lang_before = document.getElementById("lang_before").value;
         let lang_after = document.getElementById("lang_after").value;
-        let apiKey = document.getElementById("apiKey").value;
+        let apiKey = apiKeyField.value;
         
         if(translation) {
             resultText = translate(element.value, lang_before, lang_after, apiKey);
