@@ -147,11 +147,12 @@ function exportJSON() {
     let outObj = {};
     console.log(newValuePath)
 
+    //出力用オブジェクトの作成
     setValuesByPaths(outObj, newValuePath)
 
     console.log(outObj);
 
-    let outJSON = JSON.stringify(outObj);
+    let outJSON = JSON.stringify(outObj, null, 2); //第2・3引数により、JSONを見やすく整形する
     const blob = new Blob([outJSON], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
     
