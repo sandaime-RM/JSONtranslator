@@ -46,8 +46,13 @@
 
         <div class="text-end mb-3">
             <div class="me-3 inline-block">
+                <input checked id="modifySymbols" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="modifySymbols" class="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">記号の修正</label>
+            </div>
+
+            <div class="me-3 inline-block">
                 <input checked id="showResult" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="showResult" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">結果を表示</label>
+                <label for="showResult" class="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">結果を表示</label>
             </div>
 
             <button class="bg-gray-300 p-2 rounded mx-2 hover:bg-gray-400" onclick="translateAll(false)"><i class="bi bi-folder me-2"></i>読み込み</button>

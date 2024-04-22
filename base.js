@@ -29,7 +29,7 @@ function setValueByPath(obj, path, value) {
       currentObj = currentObj[key];
     }
   
-    currentObj[keys[keys.length - 1]] = value;
+    currentObj[keys[keys.length - 1]] = unescapeHtml(value);
   }
   
 function setValuesByPaths(obj, values) {
@@ -52,3 +52,28 @@ window.spinner = spinner;
 window.setValuesByPaths = setValuesByPaths;
 window.getAllValuesWithPath = getAllValuesWithPath;
 export {spinner, getAllValuesWithPath, setValuesByPaths}
+
+
+/**
+ * HTML文字列をアンエスケープ
+ * @param {string} str エスケープされたHTML文字列
+ * @return {string} アンエスケープされたHTML文字列を返す
+ * https://shanabrian.com/web/javascript/unescape-html.php
+ */
+var unescapeHtml = function(str) {
+	if (typeof str !== 'string') return str;
+
+	var patterns = {
+		'&lt;'   : '<',
+		'&gt;'   : '>',
+		'&amp;'  : '&',
+		'&quot;' : "'",
+		'&#x27;' : "'",
+		'&#x60;' : '`',
+    '&#39;'  : "'",
+	};
+
+	return str.replace(/&(lt|gt|amp|quot|#x27|#x60|#39);/g, function(match) {
+		return patterns[match];
+	});
+};

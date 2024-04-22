@@ -9,6 +9,7 @@ let resultText;
 let element;
 const showResult = document.getElementById("showResult");
 const saveKeyCheck = document.getElementById("saveKey");
+const modifySymbolCheck = document.getElementById("modifySymbols");
 const apiKeyField = document.getElementById("apiKey");
 
 //Webページ読み込み時に、保存済みのAPIキーを照会して表示
@@ -94,6 +95,7 @@ async function translateAll(translation) {
     
         //outputField.innerHTML += '<tr><td class="text-sm">' + element.path + '</td><td>' + element.value + '</td><td><input id="afterText_' + i + '" class="p-2 rounded border" value="' + resultText + '" onchange="textChange(' + i + ')"></td></tr>'
         
+
         //出力用のオブジェクトの作成
         newValuePath[i] = {
             path : element.path,
